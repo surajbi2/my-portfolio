@@ -121,8 +121,7 @@ const Nav = () => {
 
 // Hero Section
 const Hero = () => (
-  <section id="home" className="pt-32 pb-16 md:px-6 px-2 relative">
-
+  <section id="home" className="pt-32 pb-24 md:pb-16 px-4 relative">
     <div className="container mx-auto text-center relative overflow-hidden">
       {/* Floating background elements */}
       <motion.div
@@ -130,7 +129,7 @@ const Hero = () => (
         animate={{ scale: 1 }}
         transition={{ duration: 2 }}
         className="absolute inset-0 opacity-10"
-        >
+      >
         <div className="absolute -top-20 -left-20 w-48 h-48 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-full blur-3xl animate-float"></div>
         <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-gradient-to-r from-purple-400/30 to-pink-400/30 rounded-full blur-3xl animate-float-delayed"></div>
       </motion.div>
@@ -139,10 +138,10 @@ const Hero = () => (
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="space-y-6 max-w-2xl mx-auto relative"
-        >
+        className="space-y-6 max-w-2xl mx-auto relative z-10"
+      >
         {/* Column layout with staggered words */}
-        <div className="flex items-center gap-0">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
           {["Creative", "Full Stack", "Developer"].map((word, index) => (
             <motion.div
               key={word}
@@ -155,50 +154,57 @@ const Hero = () => (
               }}
               whileHover={{
                 scale: 1.05,
-                backgroundImage: 'linear-gradient(to right, #22d3ee, #38bdf8)',
                 transition: { duration: 0.3 },
-                cursor: "grab"
               }}
-              className="bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent md:text-5xl text-2xl font-bold leading-tight hover:text-cyan-200 transition-all cursor-auto"
+              className="bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
             >
-              {word.split(" ").map((part, i) => (
-                <span key={i} className="inline-block mr-2">
-                  {part}
-                </span>
-              ))}
+              {word}
             </motion.div>
           ))}
         </div>
 
         {/* Animated subtitle */}
         <motion.p
-          className="text-xl text-gray-300/90 tracking-wide relative inline-block mt-8"
+          className="text-lg md:text-xl text-gray-300/90 tracking-wide relative mt-4 md:mt-8 px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.0 }}
-          whileHover={{ scale: 1.02 }}
         >
-          <span className="relative pb-1">
-            Building things to web, passionate about learning new technologies and frameworks
+          <span className="relative pb-1 inline-block">
+            Building things for the web, passionate about learning new technologies and frameworks
             <motion.span
               className="absolute bottom-0 left-0 w-full h-px bg-cyan-400 origin-left"
               initial={{ scaleX: 0 }}
-              whileHover={{ scaleX: 1 }}
-              transition={{ duration: 0.3 }}
-              />
+              whileInView={{ scaleX: 1 }}
+              transition={{ duration: 0.5 }}
+            />
           </span>
         </motion.p>
 
-        {/* Animated button */}
+        {/* Profile image - Mobile first centered, desktop on right */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+          className="mx-auto md:absolute md:-right-75 md:-bottom-5 w-40 h-40 md:w-42 md:h-42 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-cyan-400/20 shadow-lg shadow-cyan-400/30 animate-float"
+        >
+          <img 
+            src="profile.jpg" 
+            alt="profile" 
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+
+        {/* Animated button with z-index adjustment */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20, delay: 1.2 }}
-          className="mt-8 flex justify-center items-center"
+          className="mt-8 md:mt-12 flex justify-center items-center relative z-20"
         >
           <button
-            onClick={() => scrollToSection("contact")} // "contact" is the footer ID
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 text-white group relative overflow-hidden hover:cursor-pointer"
+            onClick={() => scrollToSection("contact")}
+            className="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 md:px-8 md:py-3 rounded-full shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 text-white group relative overflow-hidden"
           >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20"
@@ -212,24 +218,15 @@ const Hero = () => (
             />
             <div className="relative z-10 flex items-center gap-2">
               <FiMail className="text-lg transition-transform group-hover:scale-110" />
-              <span>Start a Conversation</span>
+              <span className="text-sm md:text-base">Start a Conversation</span>
               <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </div>
           </button>
         </motion.div>
-
       </motion.div>
     </div>
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, delay: 0.5 }}
-      className='w-24 h-24 md:w-44 md:h-44 lg:w-44 lg:h-44 absolute bottom-10 right-30 rounded-full overflow-hidden border-4 border-cyan-400/20 shadow-lg shadow-cyan-400/30 animate-float'>
-      <img src="profile.jpg" alt="profile" />
-    </motion.div>
   </section>
 );
-
 const Section = ({ title, children, icon }) => (
   <motion.section
     initial={{ opacity: 0, y: 50 }}
