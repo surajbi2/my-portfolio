@@ -52,7 +52,7 @@ export const educationData = [
     {
       title: "Frontend developer Intern",
       company: "Nexus Logic Technologies",
-      duration: "Dec 2024 - Feb 2024",
+      duration: "Dec 2023 - Feb 2024",
       description: "Worked on React and Tailwind CSS to build responsive web pages for the given skeleton designsa and also used Framer Motion for animations"
     },
     {
