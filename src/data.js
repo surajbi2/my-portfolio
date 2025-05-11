@@ -41,7 +41,7 @@ export const educationData = [
       title: "Full Stack Development Intern",
       company: "Edunet Foundation",
       duration: "feb 2025 - march 2025",
-      description: "Working on MERN stack application, built an web application for food delivery"
+      description: "Worked on MERN stack application, built an web application for food delivery like swiggy and zomato, used framer motion for animations and tailwind CSS for styling"
     },
     {
       title: "AI Intern",
@@ -52,7 +52,7 @@ export const educationData = [
     {
       title: "Frontend developer Intern",
       company: "Nexus Logic Technologies",
-      duration: "Dec 2023 - Feb 2024",
+      duration: "Dec 2024 - Feb 2025",
       description: "Worked on React and Tailwind CSS to build responsive web pages for the given skeleton designsa and also used Framer Motion for animations"
     },
     {
