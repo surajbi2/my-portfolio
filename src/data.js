@@ -3,7 +3,7 @@ export const educationData = [
       degree: "MCA",
       institution: "Central University of Karnataka, Gulbarga Karnataka",
       duration: "2023-2025",
-      grade: "Pursuing"
+      grade: "80.5%"
     },
     {
       degree: "Bsc(MSCS)",
@@ -67,8 +67,14 @@ export const educationData = [
     {
       title: "CUK IQAC",
       tech: "VueJs, Tailwind, MySql, NodeJs, ExpressJs",
-      description: "Built a website for Central University of Karnataka IQAC(Internal Quality Assurance Cell)",
-      link: "https://cuk-frontend.vercel.app/"
+      description: "Built a website for Central University of Karnataka IQAC(Internal Quality Assurance Cell), which is used to share share and maintain the information related to quality assurance in the university",
+      link: "https://iqac.cuk.ac.in/"
+    },
+    {
+      title: "SecureIn",
+      tech: "Vite-React, Tailwind CSS, Framer Motion, Node.js, Express.js, MysQL, JWT",
+      description: "This website is a secure platform for gate entry system which is managed by security guards and admin, it has features like event management, visitor management, generating passes, and more",
+      link: "https://secure-in.vercel.app/"
     },
     {
       title: "ISWAR - NGO",
@@ -83,15 +89,15 @@ export const educationData = [
       link: "https://thindham-food-delivery.vercel.app/"
     },
     {
-      title: "Project Management Dashboard",
-      tech: "Vite-React, Tailwind CSS, Framer Motion",
-      description: "A project management dashboard with Project overview, task tracking and data visualization",
-      link: "https://project-management-dashboard-nine.vercel.app/"
-    },
-    {
       title: "Artist Landing Page",
       tech: "Vite-React, Tailwind CSS, Framer Motion",
       description: "A landing page for an artist with a responsive design and smooth animations using framer motion and tailwind CSS",
       link: "https://artist-landingpage.vercel.app/"
+    },
+    {
+      title: "Project Management Dashboard",
+      tech: "Vite-React, Tailwind CSS, Framer Motion",
+      description: "A project management dashboard with Project overview, task tracking and data visualization",
+      link: "https://project-management-dashboard-nine.vercel.app/"
     }
   ];
