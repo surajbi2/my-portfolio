@@ -12,6 +12,7 @@ import {
   SiGit, SiHtml5, SiCss3, SiBootstrap, SiExpress, SiGithub, SiStreamlit, SiPostman, SiSelenium
 } from 'react-icons/si';
 import { educationData, skillCategories, internships, projects } from './data';
+import Button from './components/Button';
 
 const App = () => {
   return (
@@ -343,11 +344,11 @@ const ProjectGallery = () => (
         initial={{ scale: 0.9, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={{ once: true }}
-        className="p-6 bg-white/5 rounded-xl border border-white/5 hover:border-cyan-400/20 transition-all backdrop-blur-sm"
+        className="p-6 bg-black/30 rounded-xl border border-white/5 hover:border-cyan-400/20 transition-all backdrop-blur-sm"
       >
-        <h3 className="text-xl font-bold text-cyan-300">{project.title}</h3>
-        <p className="text-sm text-cyan-400/90 mt-2">{project.tech}</p>
-        <p className="mt-4 text-gray-300/90">{project.description}</p>
+        <h3 className="text-xl font-bold text-gray-100">{project.title}</h3>
+        <p className="text-sm text-gray-100/90 mt-2">{project.tech}</p>
+        <p className="mt-4 text-gray-100/90">{project.description}</p>
         {project.link && (
           <motion.a
             href={project.link}
@@ -355,8 +356,7 @@ const ProjectGallery = () => (
             whileHover={{ x: 5 }}
             className=" mt-4 text-cyan-400 hover:text-cyan-300 flex items-center gap-2 group"
           >
-            <span>Explore Project</span>
-            <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            <Button/>
           </motion.a>
         )}
       </motion.div>
