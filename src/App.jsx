@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import {
   FiGithub, FiLinkedin, FiMail, FiBook, FiCode,
-  FiBriefcase, FiFolder, FiArrowUpRight
+  FiBriefcase, FiFolder, FiExternalLink, FiArrowUpRight, FiMapPin, FiCalendar
 } from 'react-icons/fi';
 import { FaCode, FaVuejs } from "react-icons/fa6";
 import { VscVscode } from "react-icons/vsc";
@@ -12,388 +12,489 @@ import {
   SiGit, SiHtml5, SiCss3, SiBootstrap, SiExpress, SiGithub, SiStreamlit, SiPostman, SiSelenium
 } from 'react-icons/si';
 import { educationData, skillCategories, internships, projects } from './data';
-import Button from './components/Button';
 
-const App = () => {
-  return (
-    <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-gray-100 min-h-screen">
-      <Nav />
-      {/* <Navbar /> */}
-      <Hero />
-
-      <Section icon={<FiBook />} title="Education">
-        <EducationTimeline />
-      </Section>
-
-      <Section icon={<FiCode />} title="Skills">
-        <SkillsGrid />
-      </Section>
-
-      <Section icon={<FiBriefcase />} title="Internships">
-        <InternshipList />
-      </Section>
-
-      <Section icon={<FiFolder />} title="Projects">
-        <ProjectGallery />
-      </Section>
-
-      <Footer />
-    </div>
-  );
-};
-const scrollToSection = (id) => {
-  const element = document.getElementById(id);
-  if (element) {
-    const offset = 150;
-    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({
-      top: elementPosition - offset,
-      behavior: "smooth",
-    });
-  }
+/* ─── Scroll helper ─── */
+const scrollTo = (id) => {
+  const el = document.getElementById(id);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
 };
 
-// import GooeyNav from './components/Nav'
+/* ─── Skill icon map ─── */
+const skillIcons = {
+  'React': SiReact, 'Node.js': SiNodedotjs, 'Python': SiPython, 'JavaScript': SiJavascript,
+  'Vue.js': FaVuejs, 'Tailwind CSS': SiTailwindcss, 'C Programming': FaCode, 'MongoDB': SiMongodb,
+  'MySQL': SiMysql, 'Streamlit': SiStreamlit, 'Postman': SiPostman, 'Git': SiGit,
+  'HTML5': SiHtml5, 'CSS3': SiCss3, 'Bootstrap': SiBootstrap, 'Express.js': SiExpress,
+  'VS Code': VscVscode, 'GitHub': SiGithub, 'Framer Motion': SiFramer, 'Selenium': SiSelenium,
+};
 
-// update with your own items
-// const items = [
-//   { label: "Home", href: "#" },
-//   { label: "About", href: "#" },
-//   { label: "Contact", href: "#" },
-// ];
+/* ─── Fade-in variant ─── */
+const fadeUp = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } } };
 
-// const Navbar=()=>{
-// return(
-// <div style={{ height: '600px', position: 'relative' }}>
-//   <GooeyNav
-//     items={items}
-//     animationTime={600}
-//     pCount={15}
-//     minDistance={20}
-//     maxDistance={42}
-//     maxRotate={75}
-//     colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-//     timeVariance={300}
-//   />
-// </div>)
-// }
+/* ═══════════════════════════════════════
+   APP
+═══════════════════════════════════════ */
+const App = () => (
+  <div style={{ background: 'var(--bg-base)', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+    {/* Global ambient orbs */}
+    <div className="orb" style={{ width: 500, height: 500, top: -100, left: -150, background: 'rgba(201,168,76,0.06)', animationDelay: '0s' }} />
+    <div className="orb" style={{ width: 400, height: 400, top: '40%', right: -100, background: 'rgba(120,80,200,0.05)', animationDelay: '-4s' }} />
+    <div className="orb" style={{ width: 300, height: 300, bottom: '10%', left: '20%', background: 'rgba(201,168,76,0.04)', animationDelay: '-8s' }} />
 
-// Navbar
+    <Nav />
+    <Hero />
+    <Education />
+    <Skills />
+    <Internships />
+    <Projects />
+    <Footer />
+  </div>
+);
 
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+const Nav = () => (
+  <motion.nav
+    initial={{ opacity: 0, y: -30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      background: 'rgba(10,10,15,0.85)', backdropFilter: 'blur(20px)',
+      borderBottom: '1px solid rgba(201,168,76,0.12)',
+    }}
+  >
+    <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px' }}>
+      <motion.span
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+        className="font-display gradient-text"
+        style={{ fontSize: '1.3rem', fontWeight: 700, letterSpacing: '0.02em', cursor: 'default' }}
+      >
+        Suraj Kumar
+      </motion.span>
 
-const Nav = () => {
-
-
-  return (
-    <motion.nav
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed w-full bg-gray-900/80 backdrop-blur-md border-b border-white/10 z-50"
-    >
-      <div className="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-        <motion.h1
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="text-2xl font-bold mb-2 md:mb-0 bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent"
-        >
-          Ramagiri Suraj Kumar
-        </motion.h1>
-        <div className="flex md:space-x-4">
-          {['home', 'education', 'skills', 'internships', 'projects', 'contact'].map((link) => (
-            <motion.button
-              type="button"
-              key={link}
-              onClick={() => scrollToSection(link)}
-              whileHover={{ scale: 1.05 }}
-              className="md:px-3 px-1 py-2 relative group text-gray-300 hover:text-white transition-colors cursor-pointer"
-            >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
-              <motion.div
-                className="absolute bottom-0 left-0 w-full h-px bg-cyan-400 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-              />
-            </motion.button>
-          ))}
-        </div>
+      <div style={{ display: 'flex', gap: 4 }}>
+        {['home', 'education', 'skills', 'internships', 'projects', 'contact'].map((link, i) => (
+          <motion.button
+            key={link}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * i + 0.3 }}
+            onClick={() => scrollTo(link)}
+            style={{
+              position: 'relative', background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--text-muted)', fontSize: '0.82rem', fontWeight: 500,
+              letterSpacing: '0.06em', textTransform: 'uppercase', padding: '8px 12px',
+              fontFamily: 'Inter, sans-serif', transition: 'color 0.25s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--gold)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+          >
+            {link.charAt(0).toUpperCase() + link.slice(1)}
+            <span className="nav-link-line" />
+          </motion.button>
+        ))}
       </div>
-    </motion.nav>
-  );
-};
+    </div>
+  </motion.nav>
+);
 
-// Hero Section
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
 const Hero = () => (
-  <section id="home" className="pt-32 pb-24 md:pb-16 px-4 relative">
-    <div className="container mx-auto text-center relative overflow-hidden">
-      {/* Floating background elements */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 2 }}
-        className="absolute inset-0 opacity-10"
-      >
-        <div className="absolute -top-20 -left-20 w-48 h-48 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-gradient-to-r from-purple-400/30 to-pink-400/30 rounded-full blur-3xl animate-float-delayed"></div>
-      </motion.div>
+  <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: 80 }}>
+    <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 48, flexWrap: 'wrap' }}>
 
-      <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="space-y-6 max-w-2xl mx-auto relative z-10"
-      >
-        {/* Column layout with staggered words */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
-          {["Creative", "Full Stack", "Developer"].map((word, index) => (
-            <motion.div
-              key={word}
-              initial={{ opacity: 0, y: 30, rotateX: 90 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.3,
-                ease: "backOut"
-              }}
-              whileHover={{
-                scale: 1.05,
-                transition: { duration: 0.3 },
-              }}
-              className="bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
-            >
-              {word}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Animated subtitle */}
-        <motion.p
-          className="text-lg md:text-xl text-gray-300/90 tracking-wide relative mt-4 md:mt-8 px-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.0 }}
-        >
-          <span className="relative pb-1 inline-block">
-            Building things for the web, passionate about learning new technologies and frameworks
-            <motion.span
-              className="absolute bottom-0 left-0 w-full h-px bg-cyan-400 origin-left"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              transition={{ duration: 0.5 }}
-            />
-          </span>
+      {/* Text */}
+      <motion.div style={{ flex: '1 1 400px' }} initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.15 } } }}>
+        <motion.p variants={fadeUp} style={{ color: 'var(--gold)', fontSize: '0.85rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16, fontWeight: 600 }}>
+          Welcome to my portfolio
         </motion.p>
 
-        {/* Profile image - Mobile first centered, desktop on right */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-          className="mx-auto md:absolute md:-right-75 md:-bottom-5 w-40 h-40 md:w-42 md:h-42 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-cyan-400/20 shadow-lg shadow-cyan-400/30 animate-float"
-        >
-          <img 
-            src="profile.jpg" 
-            alt="profile" 
-            className="w-full h-full object-cover"
-          />
+        <motion.h1 variants={fadeUp} className="font-display" style={{ fontSize: 'clamp(2.6rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1.15, color: 'var(--text-primary)', margin: '0 0 12px' }}>
+          Ramagiri<br /><span className="gradient-text">Suraj Kumar</span>
+        </motion.h1>
+
+        <motion.div variants={fadeUp} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24 }}>
+          <span style={{ width: 32, height: 2, background: 'var(--gold)', borderRadius: 1 }} />
+          <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 400, margin: 0 }}>
+            Creative Full Stack Developer
+          </p>
         </motion.div>
 
-        {/* Animated button with z-index adjustment */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20, delay: 1.2 }}
-          className="mt-8 md:mt-12 flex justify-center items-center relative z-20"
-        >
+        <motion.p variants={fadeUp} style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.75, maxWidth: 480, marginBottom: 36 }}>
+          Building elegant digital experiences — passionate about crafting performant, beautiful, and user-centric web applications.
+        </motion.p>
+
+        <motion.div variants={fadeUp} style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          <button className="btn-gold" onClick={() => scrollTo('contact')}>
+            <FiMail /> Get In Touch <FiArrowUpRight />
+          </button>
           <button
-            onClick={() => scrollToSection("contact")}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 md:px-8 md:py-3 rounded-full shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 text-white group relative overflow-hidden"
+            onClick={() => scrollTo('projects')}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '11px 28px', background: 'transparent',
+              border: '1px solid var(--gold-border)', borderRadius: 50,
+              color: 'var(--gold)', fontSize: '0.85rem', fontWeight: 600,
+              letterSpacing: '0.06em', textTransform: 'uppercase',
+              cursor: 'pointer', fontFamily: 'Inter, sans-serif',
+              transition: 'all 0.3s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.08)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--gold-border)'; }}
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-500/20"
-              animate={{
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-              }}
-            />
-            <div className="relative z-10 flex items-center gap-2">
-              <FiMail className="text-lg transition-transform group-hover:scale-110" />
-              <span className="text-sm md:text-base">Start a Conversation</span>
-              <FiArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </div>
+            <FiFolder /> View Projects
           </button>
         </motion.div>
+      </motion.div>
+
+      {/* Avatar */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
+        style={{ flex: '0 0 auto', position: 'relative' }}
+      >
+        <div style={{ position: 'relative', width: 260, height: 260 }}>
+          {/* Rotating ring */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            style={{
+              position: 'absolute', inset: -8, borderRadius: '50%',
+              background: 'conic-gradient(from 0deg, transparent 60%, var(--gold), transparent)',
+            }}
+          />
+          <div style={{
+            position: 'absolute', inset: -4, borderRadius: '50%',
+            background: 'var(--bg-base)',
+          }} />
+          <div className="pulse-avatar" style={{
+            position: 'relative', width: '100%', height: '100%',
+            borderRadius: '50%', overflow: 'hidden',
+            border: '3px solid rgba(201,168,76,0.3)',
+          }}>
+            <img src="image.jpg" alt="Suraj Kumar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+          {/* Badge */}
+          <motion.div
+            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2, type: 'spring' }}
+            style={{
+              position: 'absolute', bottom: 10, right: -20,
+              background: 'linear-gradient(135deg, #C9A84C, #A07830)',
+              borderRadius: 12, padding: '8px 14px',
+              color: '#0A0A0F', fontSize: '0.72rem', fontWeight: 700,
+              letterSpacing: '0.05em', whiteSpace: 'nowrap',
+              boxShadow: '0 4px 20px rgba(201,168,76,0.4)',
+            }}
+          >
+            Full Stack Dev
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   </section>
 );
-const Section = ({ title, children, icon }) => (
+
+/* ═══════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════ */
+const SectionWrap = ({ id, icon, title, children }) => (
   <motion.section
-    initial={{ opacity: 0, y: 50 }}
+    id={id}
+    initial={{ opacity: 0, y: 60 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    className="py-16 px-6 relative"
+    viewport={{ once: true, margin: '-80px' }}
+    transition={{ duration: 0.7, ease: 'easeOut' }}
+    style={{ padding: '96px 0' }}
   >
-    <div className="container mx-auto">
-      <h2 className="text-3xl font-bold mb-12 text-center flex items-center justify-center gap-4 bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">
-        {React.cloneElement(icon, { className: "text-cyan-400 text-2xl" })}
-        {title}
-      </h2>
+    <div className="container">
+      {/* Section heading */}
+      <div style={{ textAlign: 'center', marginBottom: 64 }}>
+        <motion.div
+          initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }}
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 52, height: 52, borderRadius: '50%',
+            background: 'rgba(201,168,76,0.1)', border: '1px solid var(--gold-border)',
+            color: 'var(--gold)', fontSize: '1.3rem', marginBottom: 20,
+          }}
+        >
+          {icon}
+        </motion.div>
+        <h2 className="font-display gradient-text" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700, margin: '0 0 16px' }}>
+          {title}
+        </h2>
+        <div className="section-divider" />
+      </div>
       {children}
     </div>
   </motion.section>
 );
 
-// Education Timeline
-const EducationTimeline = () => (
-  <div id='education' className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-cyan-500/30 before:to-transparent">
-    {educationData.map((edu, index) => (
-      <motion.div
-        key={index}
-        initial={{ x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        className="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-4 group"
-      >
-        <div className={`md:text-right pt-4 ${index % 2 === 0 ? 'md:order-2' : ''}`}>
-          <h3 className="text-xl font-bold text-cyan-300">{edu.degree}</h3>
-          <p className="text-gray-300/90">{edu.institution}</p>
-          <p className="text-sm text-gray-400 mt-2">{edu.duration}</p>
-        </div>
-        <div className="pb-8">
-          <div className="p-4 bg-cyan-500/10 rounded-lg border border-cyan-400/20 backdrop-blur-sm">
-            <p className="font-mono text-cyan-400 text-lg">{edu.grade}</p>
-          </div>
-        </div>
-      </motion.div>
-    ))}
-  </div>
+/* ═══════════════════════════════════════
+   EDUCATION
+═══════════════════════════════════════ */
+const Education = () => (
+  <SectionWrap id="education" icon={<FiBook />} title="Education">
+    <div style={{ position: 'relative', paddingLeft: 28 }}>
+      {/* Vertical line */}
+      <div style={{
+        position: 'absolute', left: 5, top: 0, bottom: 0,
+        width: 1, background: 'linear-gradient(to bottom, var(--gold), transparent)',
+      }} />
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        {educationData.map((edu, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}
+          >
+            {/* Dot */}
+            <div style={{ position: 'relative', flexShrink: 0, marginLeft: -29, marginTop: 6 }}>
+              <div className="timeline-dot" />
+            </div>
+
+            {/* Card */}
+            <div className="glass-card" style={{ flex: 1, padding: '24px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+              <div>
+                <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.15rem', fontWeight: 600, margin: '0 0 6px' }}>
+                  {edu.degree}
+                </h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FiMapPin style={{ color: 'var(--gold)', fontSize: '0.8rem' }} /> {edu.institution}
+                </p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FiCalendar style={{ color: 'var(--gold)', fontSize: '0.8rem' }} /> {edu.duration}
+                </p>
+              </div>
+              <div style={{
+                padding: '12px 24px', background: 'rgba(201,168,76,0.08)',
+                border: '1px solid var(--gold-border)', borderRadius: 10, textAlign: 'center',
+              }}>
+                <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '1.1rem', margin: 0, fontFamily: 'Playfair Display, serif' }}>{edu.grade}</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.7rem', margin: '4px 0 0', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Score</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </SectionWrap>
 );
 
-// Skills
-const skillIcons = {
-  'React': SiReact, 'Node.js': SiNodedotjs, 'Python': SiPython, 'JavaScript': SiJavascript, 'Vue.js': FaVuejs,
-  'Tailwind CSS': SiTailwindcss, 'C Programming': FaCode, 'MongoDB': SiMongodb, 'MySQL': SiMysql, 'Streamlit': SiStreamlit,
-  'Postman': SiPostman, 'Git': SiGit, 'HTML5': SiHtml5, 'CSS3': SiCss3, 'Bootstrap': SiBootstrap, 'Express.js': SiExpress,
-  'VS Code': VscVscode, 'GitHub': SiGithub, 'Framer Motion': SiFramer, 'Selenium': SiSelenium
-};
-
-const SkillsGrid = () => (
-  <section id="skills" className="py-4">
-    
-    <div className="space-y-8 ">
-      {Object.entries(skillCategories).map(([category, skills]) => (
-        <div key={category}>
-          {/* Category Title */}
-          <h3 className="text-xl md:text-2xl text-gray-300 font-semibold mb-4 border-l-4 border-cyan-400 pl-3">
+/* ═══════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════ */
+const Skills = () => (
+  <SectionWrap id="skills" icon={<FiCode />} title="Skills & Technologies">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+      {Object.entries(skillCategories).map(([category, skills], ci) => (
+        <motion.div
+          key={category}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: ci * 0.08 }}
+        >
+          <h3 style={{
+            color: 'var(--text-primary)', fontSize: '0.8rem', fontWeight: 600,
+            letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 16,
+            paddingLeft: 14, borderLeft: '2px solid var(--gold)',
+          }}>
             {category}
           </h3>
-
-          {/* Skills Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 12 }}>
             {skills.map((skill) => {
-              const SkillIcon = skillIcons[skill] || FiCode;
+              const Icon = skillIcons[skill] || FiCode;
               return (
                 <motion.div
                   key={skill}
-                  whileHover={{ y: -5 }}
-                  className="p-4 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-400/30 transition-all flex flex-col items-center justify-center gap-2 backdrop-blur-sm hover:cursor-pointer"
+                  className="skill-badge"
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 >
-                  <SkillIcon className="text-3xl text-cyan-400 transition-transform hover:scale-110 " />
-                  <span className="text-gray-300/90">{skill}</span>
+                  <Icon style={{ color: 'var(--gold)', fontSize: '1.8rem' }} />
+                  <span>{skill}</span>
                 </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
-  </section>
+  </SectionWrap>
 );
 
-
-// Internships
-const InternshipList = () => (
-  <div id='internships' className="grid gap-6 md:grid-cols-2">
-    {internships.map((internship, index) => (
-      <motion.div
-        key={index}
-        initial={{ y: 50, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true }}
-        className="p-6 bg-black/30 rounded-lg shadow-lg border border-white/10"
-      >
-        <h3 className="text-xl font-bold text-cyan-300">{internship.title}</h3>
-        <p className="text-gray-300 mt-2">{internship.company}</p>
-        <p className="text-sm text-gray-500 mt-2">{internship.duration}</p>
-        <p className="mt-4 text-gray-400">{internship.description}</p>
-      </motion.div>
-    ))}
-  </div>
+/* ═══════════════════════════════════════
+   INTERNSHIPS
+═══════════════════════════════════════ */
+const Internships = () => (
+  <SectionWrap id="internships" icon={<FiBriefcase />} title="Experience">
+    <div style={{ display: 'grid', gap: 24, gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+      {internships.map((item, i) => (
+        <motion.div
+          key={i}
+          className="glass-card"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.1 }}
+          style={{ padding: '28px 28px 24px' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: 10,
+              background: 'rgba(201,168,76,0.1)', border: '1px solid var(--gold-border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--gold)', fontSize: '1.2rem', flexShrink: 0,
+            }}>
+              <FiBriefcase />
+            </div>
+            <span style={{
+              fontSize: '0.72rem', color: 'var(--gold)', fontWeight: 600,
+              background: 'rgba(201,168,76,0.08)', border: '1px solid var(--gold-border)',
+              borderRadius: 20, padding: '4px 12px', letterSpacing: '0.04em',
+            }}>
+              {item.duration}
+            </span>
+          </div>
+          <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: 600, margin: '0 0 6px' }}>
+            {item.title}
+          </h3>
+          <p style={{ color: 'var(--gold)', fontSize: '0.82rem', fontWeight: 600, marginBottom: 12, letterSpacing: '0.04em' }}>
+            @ {item.company}
+          </p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.87rem', lineHeight: 1.7, margin: 0 }}>
+            {item.description}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  </SectionWrap>
 );
 
-// Projects
-const ProjectGallery = () => (
-  <div
-    id='projects'
-    className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {projects.map((project, index) => (
-      <motion.div
-        key={index}
-        initial={{ scale: 0.9, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        className="p-6 bg-black/30 rounded-xl border border-white/5 hover:border-cyan-400/20 transition-all backdrop-blur-sm"
-      >
-        <h3 className="text-xl font-bold text-gray-100">{project.title}</h3>
-        <p className="text-sm text-gray-100/90 mt-2">{project.tech}</p>
-        <p className="mt-4 text-gray-100/90">{project.description}</p>
-        {project.link && (
-          <motion.a
-            href={project.link}
-            target='_blank'
-            whileHover={{ x: 5 }}
-            className=" mt-4 text-cyan-400 hover:text-cyan-300 flex items-center gap-2 group"
-          >
-            <Button/>
-          </motion.a>
-        )}
-      </motion.div>
-    ))}
-  </div>
+/* ═══════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════ */
+const Projects = () => (
+  <SectionWrap id="projects" icon={<FiFolder />} title="Projects">
+    <div style={{ display: 'grid', gap: 24, gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+      {projects.map((project, i) => (
+        <motion.div
+          key={i}
+          className="glass-card"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.08 }}
+          style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: 14 }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div style={{ color: 'var(--gold)', fontSize: '1.4rem' }}><FiFolder /></div>
+            {project.link && (
+              <motion.a
+                href={project.link} target="_blank" rel="noopener noreferrer"
+                whileHover={{ y: -2 }}
+                style={{
+                  width: 36, height: 36, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  border: '1px solid var(--gold-border)', color: 'var(--gold)',
+                  textDecoration: 'none', fontSize: '0.9rem',
+                  transition: 'all 0.25s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(201,168,76,0.15)'; e.currentTarget.style.borderColor = 'var(--gold)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--gold-border)'; }}
+              >
+                <FiExternalLink />
+              </motion.a>
+            )}
+          </div>
+
+          <h3 className="font-display" style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>
+            {project.title}
+          </h3>
+
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.87rem', lineHeight: 1.7, margin: 0, flex: 1 }}>
+            {project.description}
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4 }}>
+            {project.tech.split(',').map(t => (
+              <span key={t.trim()} className="tech-badge">{t.trim()}</span>
+            ))}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </SectionWrap>
 );
 
-// Footer
+/* ═══════════════════════════════════════
+   FOOTER / CONTACT
+═══════════════════════════════════════ */
 const Footer = () => (
-  <footer id="contact" className="bg-gray-900/50 py-12 mt-16 border-t border-white/10">
-    <div className="container mx-auto px-6">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">
+  <footer id="contact" style={{
+    borderTop: '1px solid rgba(201,168,76,0.12)',
+    background: 'rgba(15,15,24,0.8)',
+    padding: '80px 0 40px',
+    marginTop: 32,
+  }}>
+    <div className="container" style={{ textAlign: 'center' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+      >
+        <p style={{ color: 'var(--gold)', fontSize: '0.8rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
+          Let's Connect
+        </p>
+        <h2 className="font-display gradient-text" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, marginBottom: 16 }}>
           Let's Build Something Amazing
         </h2>
-        <div className="flex justify-center space-x-6 mb-8">
+        <p style={{ color: 'var(--text-muted)', maxWidth: 420, margin: '0 auto 40px', lineHeight: 1.7, fontSize: '0.93rem' }}>
+          I'm always open to discussing new projects, creative ideas or opportunities. Drop me a message!
+        </p>
+
+        {/* Social icons */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 48 }}>
           {[
-            { icon: FiGithub, link: 'https://github.com/surajbi2' },
-            { icon: FiLinkedin, link: 'https://www.linkedin.com/in/suraj-kumar-ramagiri-8b47411a2/' },
-            { icon: FiMail, link: 'mailto:ramagirisurajkumar@gmail.com' }
-          ].map((social, index) => (
+            { icon: FiGithub, href: 'https://github.com/surajbi2', label: 'GitHub' },
+            { icon: FiLinkedin, href: 'https://www.linkedin.com/in/suraj-kumar-ramagiri-8b47411a2/', label: 'LinkedIn' },
+            { icon: FiMail, href: 'mailto:ramagirisurajkumar@gmail.com', label: 'Email' },
+          ].map(({ icon: Icon, href, label }) => (
             <motion.a
-              key={index}
-              whileHover={{ y: -5, scale: 1.1 }}
-              href={social.link}
+              key={label}
+              href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl text-gray-300 hover:text-cyan-400 transition-colors"
+              className="social-icon"
+              whileHover={{ y: -4 }}
+              aria-label={label}
+              style={{ textDecoration: 'none' }}
             >
-              <social.icon />
+              <Icon />
             </motion.a>
           ))}
         </div>
-        <p className="text-gray-400/80 tracking-wide">
-          © {new Date().getFullYear()} Ramagiri Suraj Kumar. Crafted with passion and React
-        </p>
-      </div>
+
+        <button className="btn-gold" onClick={() => window.location.href = 'mailto:ramagirisurajkumar@gmail.com'}>
+          <FiMail /> Send a Message
+        </button>
+
+        <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(201,168,76,0.08)' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', letterSpacing: '0.04em' }}>
+            © {new Date().getFullYear()} Ramagiri Suraj Kumar &nbsp;·&nbsp; Crafted with passion & React
+          </p>
+        </div>
+      </motion.div>
     </div>
   </footer>
 );
