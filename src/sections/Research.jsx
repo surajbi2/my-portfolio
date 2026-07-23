@@ -33,6 +33,10 @@ const Research = () => (
           <dt className="mono">Focus</dt>
           <dd>{research.focus}</dd>
         </div>
+        <div className="research-fact" data-reveal>
+          <dt className="mono">Funding</dt>
+          <dd>{research.funding}</dd>
+        </div>
       </dl>
 
       <div className="research-interests" data-reveal>

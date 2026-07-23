@@ -13,13 +13,16 @@ export const research = {
   institution: 'Central University of Karnataka',
   duration: '2025 — Present',
   focus: 'Artificial Intelligence & Machine Learning',
+  funding:
+    'Visvesvaraya PhD Scheme for Electronics & IT, Ministry of Electronics and Information Technology (MeitY), Government of India.',
   summary:
-    'Doctoral research in computer science with a focus on artificial intelligence and machine learning — studying how learning systems can be built, evaluated, and put to honest use on the web.',
+  'Recipient of the Visvesvaraya PhD Scheme for Electronics & IT (MeitY, Government of India). My doctoral research focuses on trustworthy and generalizable deep learning methods for medical image analysis.',
   interests: [
     'Machine learning systems',
     'Deep learning',
-    'Applied AI on the web',
-    'Data-driven interfaces',
+    'Medical image analysis',
+    'Domain adaptation',
+    'Trustworthy AI',
   ],
   note: 'Early-stage doctoral work. Publications to follow.',
 };
