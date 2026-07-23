@@ -2,13 +2,17 @@
 
 /* ── Tokens ── */
 :root {
+  /* dark (default): ink surface, paper type */
   --ink: #0e0e0c;
+  --ink-rgb: 14, 14, 12;
   --ink-raised: #131311;
   --paper: #e9e7e1;
   --paper-dim: #b9b6ae;
   --mist: #7d7b74;
   --line: rgba(233, 231, 225, 0.14);
   --line-soft: rgba(233, 231, 225, 0.07);
+  --scroll-thumb: #3a3936;
+  --cover-shadow: 0 -30px 60px rgba(0, 0, 0, 0.45);
 
   --font-sans: 'Archivo', system-ui, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -18,12 +22,26 @@
   --section-gap: clamp(6rem, 14vh, 11rem);
 }
 
+/* light: warm paper surface, ink type — same mono system inverted */
+:root[data-theme='light'] {
+  --ink: #f2efe8;
+  --ink-rgb: 242, 239, 232;
+  --ink-raised: #eae6dc;
+  --paper: #171511;
+  --paper-dim: #4d4a43;
+  --mist: #63605a;
+  --line: rgba(23, 21, 17, 0.16);
+  --line-soft: rgba(23, 21, 17, 0.08);
+  --scroll-thumb: #c4bfb3;
+  --cover-shadow: 0 -30px 60px rgba(23, 21, 17, 0.12);
+}
+
 /* ── Base ── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #3a3936 var(--ink);
+  scrollbar-color: var(--scroll-thumb) var(--ink);
 }
 
 body {
@@ -45,7 +63,18 @@ html.lenis, html.lenis body { height: auto; }
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: #3a3936; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); }
+
+/* smooth color hand-off when the theme is switched (class added on first toggle
+   so initial load never transitions) */
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease;
+}
 
 h1, h2, h3, h4, p, figure { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }

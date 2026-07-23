@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      try {
+        if (localStorage.getItem('rsk-theme') === 'light') {
+          document.documentElement.dataset.theme = 'light';
+        }
+      } catch (e) { /* private mode */ }
+    </script>
     <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-N6S6VVVYRX"></script>
   <script>

@@ -1,4 +1,4 @@
-import { Analytics } from "@vercel/analytics/next"
+// import { Analytics } from "@vercel/analytics"
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -20,12 +20,44 @@ gsap.registerPlugin(ScrollTrigger);
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const themeColors = { dark: '#0e0e0c', light: '#f2efe8' };
+
+const getStoredTheme = () => {
+  try {
+    return localStorage.getItem('rsk-theme') === 'light' ? 'light' : 'dark';
+  } catch {
+    return 'dark';
+  }
+};
+
 const App = () => {
   const rootRef = useRef(null);
   const lenisRef = useRef(null);
   const [showPreloader] = useState(
     () => !sessionStorage.getItem('rsk-intro') && !prefersReducedMotion()
   );
+  const [theme, setTheme] = useState(getStoredTheme);
+  const themeAnimTimer = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('rsk-theme', theme);
+    } catch {
+      /* private mode */
+    }
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', themeColors[theme]);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    root.classList.add('theme-anim');
+    clearTimeout(themeAnimTimer.current);
+    themeAnimTimer.current = setTimeout(() => root.classList.remove('theme-anim'), 600);
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
 
   useEffect(() => {
     const reduceMotion = prefersReducedMotion();
@@ -161,10 +193,11 @@ const App = () => {
   };
 
   return (
+    <>
     <div className="site" ref={rootRef}>
       {showPreloader && <Preloader />}
-      <Nav onNavigate={handleNavigate} />
-      <Hero />
+      <Nav onNavigate={handleNavigate} theme={theme} onToggleTheme={toggleTheme} />
+      <Hero theme={theme} />
       <main className="site-main">
         <Manifesto />
         <Research />
@@ -175,6 +208,7 @@ const App = () => {
       </main>
       <Contact />
     </div>
+    </>
   );
 };
 

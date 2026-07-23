@@ -1,14 +1,17 @@
 import Grainient from '../components/Grainient';
 import { site } from '../data';
 
-const Hero = () => (
+const grainientThemes = {
+  dark: { color1: '#3b3a36', color2: '#22211e', color3: '#0e0e0c' },
+  light: { color1: '#c0bbae', color2: '#e0dcd1', color3: '#f2efe8' },
+};
+
+const Hero = ({ theme = 'dark' }) => (
   <section className="hero" id="top" aria-label="Introduction">
     <div className="hero-bg" aria-hidden="true">
       <Grainient
         className="hero-grainient"
-        color1="#3b3a36"
-        color2="#22211e"
-        color3="#0e0e0c"
+        {...(grainientThemes[theme] || grainientThemes.dark)}
         timeSpeed={0.16}
         colorBalance={-0.1}
         warpStrength={1.1}
