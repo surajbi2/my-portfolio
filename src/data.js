@@ -142,7 +142,7 @@ export const projects = [
     kind: 'Design & build',
   },
   {
-    title: 'PM Dashboard',
+    title: 'Project Management Dashboard',
     tech: 'React, Tailwind, Framer Motion',
     description:
       'Project-management dashboard with overview, task tracking, and data visualisation.',
